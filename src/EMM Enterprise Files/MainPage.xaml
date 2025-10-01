@@ -30,6 +30,7 @@
                 ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:EMMFile">
+                        
                         <TextCell Text="{Binding Name}"
                           Detail="{Binding URL}" />
                     </DataTemplate>

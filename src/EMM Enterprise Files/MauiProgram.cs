@@ -20,7 +20,7 @@ namespace EMM_Enterprise_Files
     		builder.Logging.AddDebug();
 #endif      
 
-            var app = builder.Build();
+            //var app = builder.Build();
 
             return builder.Build();
         }
