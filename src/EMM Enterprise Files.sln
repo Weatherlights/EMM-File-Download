@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36511.14 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMM Enterprise Files", "EMM Enterprise Files\EMM Enterprise Files.csproj", "{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC5DFE82-B0AF-44AE-BFA0-27539DA05694}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD0DECD1-D04A-49CC-A4F9-B30ABE46DE4D}
+	EndGlobalSection
+EndGlobal

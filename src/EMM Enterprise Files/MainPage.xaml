@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:EMM_Enterprise_Files" 
+             x:Class="EMM_Enterprise_Files.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <!-- Fix: Set ItemsSource to a valid collection, e.g. Binding to a property -->
+            <Label
+                Text="Select a file to download"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" 
+                x:Name="InstructionLabel"/>
+            <ListView
+                ItemsSource="{x:Static local:EMMFile.All}"
+                x:Name="EMMFilesListView"
+                ItemSelected="OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:EMMFile">
+                        <TextCell Text="{Binding Name}"
+                          Detail="{Binding URL}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label
+     Text="Status: Idle"
+     FontAttributes="Bold"
+
+     x:Name="StatusLabel"/>
+            <ProgressBar Progress="0"
+             ProgressColor="Orange"
+             x:Name="DownloadProgressBar"
+            />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

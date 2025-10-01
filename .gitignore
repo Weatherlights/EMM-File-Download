@@ -1,0 +1,4 @@
+src/EMM Enterprise Files/bin/
+src/EMM Enterprise Files/obj/
+src/.vs/
+*.keystore

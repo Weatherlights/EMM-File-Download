@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- Managed configuration -->
+  <string name="managed_config_profiles_array_title">File sync rules</string>
+  <string name="managed_config_profiles_array_description">Collection of file synchronisation rules.</string>
+  <string name="managed_config_name_title">Name</string>
+  <string name="managed_config_name_description">Specifies a name for the file.</string>
+  <string name="managed_config_url_title">Download URL</string>
+  <string name="managed_config_url_description">Specifies the url from which the file is downloaded.</string>
+  <string name="managed_config_path_title">Target file path</string>
+  <string name="managed_config_path_description">Specifies the local file path to which the file is downloaded.</string>
+  <string name="managed_config_profile_bundle_title">File sync rule</string>
+  <string name="managed_config_profile_bundle_description">A file sync rule</string>
+</resources>
