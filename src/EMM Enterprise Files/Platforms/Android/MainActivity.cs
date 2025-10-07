@@ -14,7 +14,7 @@ namespace EMM_Enterprise_Files
         {
             base.OnCreate(savedInstanceState);
 
-            PeriodicWorkRequest taxWorkRequest = PeriodicWorkRequest.Builder.From<DownloadComplianceWorker>(TimeSpan.FromMinutes(1)).Build();
+            PeriodicWorkRequest taxWorkRequest = PeriodicWorkRequest.Builder.From<DownloadComplianceWorker>(TimeSpan.FromMinutes(20)).Build();
 
             WorkManager.Instance.Enqueue(taxWorkRequest);
         }

@@ -12,4 +12,10 @@
   <string name="managed_config_path_description">Specifies the local file path to which the file is downloaded.</string>
   <string name="managed_config_profile_bundle_title">File sync rule</string>
   <string name="managed_config_profile_bundle_description">A file sync rule</string>
+    <string name="managed_config_intent_title">Intent</string>
+  <string name="managed_config_intent_description">Specify how the rule should be enforced. Available offers self-service through the app GUI. Create creates the file if it does not exist. Compliant creates the file and overwrites it when the file hash does not equal the configured hash.</string>
+  <string name="managed_config_hash_title">File Hash</string>
+  <string name="managed_config_hash_description">Provide a file hash that can be used to validate the compliance and integrity of the downloaded file. This value is required when using the Compliant Intent.</string>
+
+
 </resources>

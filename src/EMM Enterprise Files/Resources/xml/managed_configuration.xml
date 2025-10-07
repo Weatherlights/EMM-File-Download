@@ -33,6 +33,22 @@
       android:key="path"
       android:restrictionType="string"
       android:title="@string/managed_config_path_title" />
+      <restriction
+  android:defaultValue="false"
+  android:description="@string/managed_intent_description"
+  android:entryValues="@array/managed_config_intent_values"
+  android:key="intent"
+  android:restrictionType="choice"
+  android:title="@string/managed_intent_title" />
+      <restriction
+  android:defaultValue="false"
+  android:description="@string/managed_hash_description"
+  android:key="hash"
+  android:restrictionType="string"
+  android:title="@string/managed_hash_title" />
+    
   </restriction>
+    
+  
     </restriction>
 </restrictions>

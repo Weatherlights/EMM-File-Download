@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2025 Hauke Goetze
+-->
+<resources>
+    <!-- the order here must match the enum entries in VpnType.java -->
+    <string-array name="managed_config_intent_values" translatable="false">
+        <item>Available</item>
+        <item>Create</item>
+        <item>Compliant</item>
+    </string-array>
+
+</resources>
