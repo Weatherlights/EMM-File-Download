@@ -21,23 +21,30 @@ namespace EMM_Enterprise_Files
         }
 
         private void EnforceCompliance ()
-        {
+        { 
             EMMFileSync eMMFileSync = new EMMFileSync();
             DownloadJobManager djm = new DownloadJobManager();
             List<EMMFile> eMMFiles = eMMFileSync.GetEMMFileData();
             foreach (var file in eMMFiles)
             {
                 if (file.IsCompliant == EMMFile.compliancestate.NonCompliant)
+                {
                     djm.AddDownloadJob(file);
+                    Android.Util.Log.Debug("DownloadComplianceWorker", $"Created download job for {file.Name}.");
+                } else
+                {
+                    Android.Util.Log.Debug("DownloadComplianceWorker", $"Skipping {file.Name}.");
+                }
             }
             Progress<double> progress = new Progress<double>();
             djm.StartDownloadJobsAsync(progress);
+            Android.Util.Log.Debug("DownloadComplianceWorker", $"Download jobs started.");
         }
 
         public override Result DoWork()
         {
-  //          EnforceCompliance();
-            Android.Util.Log.Debug("CalculatorWorker", $"we are here");
+            EnforceCompliance();
+            Android.Util.Log.Debug("DownloadComplianceWorker", $"we are here");
             return Result.InvokeSuccess();
         }
 

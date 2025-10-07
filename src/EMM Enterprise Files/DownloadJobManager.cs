@@ -29,7 +29,7 @@ namespace EMM_Enterprise_Files
 
         public async Task StartDownloadJobsAsync(Progress<Double> progress)
         {
-           EMMFilesListView.IsEnabled = false;
+           //EMMFilesListView.IsEnabled = false;
             int i = 0;
             int maxi = PayloadEMMFile.Count;
             
@@ -37,21 +37,24 @@ namespace EMM_Enterprise_Files
             {
                 try
                 {
+                    Android.Util.Log.Debug("DownloadJobManager", $"Downloading {file.URL} to {file.Path}.");
                     //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
-                    
+
                     await DownloadManager.DownloadAsync(file.Path, file.URL, progress);
                     i++;
+                    Android.Util.Log.Debug("DownloadJobManager", $"Download completed.");
                     //Label.Text = $"Finished {file.Name}";
                 }
                 catch (Exception e)
                 {
-          //          Label.Text += $"{e.HResult}: {e.Message}";
+                    Android.Util.Log.Debug("DownloadJobManager", $"Download failed {e.HResult}: {e.Message}");
+                    //          Label.Text += $"{e.HResult}: {e.Message}";
                 }
                 
             }
            PayloadEMMFile.Clear();
 
-            EMMFilesListView.IsEnabled = true;
+            //EMMFilesListView.IsEnabled = true;
         }
     }
 }
