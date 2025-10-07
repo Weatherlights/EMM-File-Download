@@ -24,8 +24,11 @@ namespace EMM_Enterprise_Files
             PayloadEMMFile.Add(file);
         }
 
-
-
+        public static string GetTemporaryFileLocation()
+        {
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Path.GetRandomFileName());//address
+            return fileName;
+        }
 
         public async Task StartDownloadJobsAsync(Progress<Double> progress)
         {
@@ -37,6 +40,7 @@ namespace EMM_Enterprise_Files
             {
                 try
                 {
+                    //string temporaryFilePath = DownloadJobManager.GetTemporaryFileLocation();
                     Android.Util.Log.Debug("DownloadJobManager", $"Downloading {file.URL} to {file.Path}.");
                     //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
 
