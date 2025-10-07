@@ -20,7 +20,8 @@
                 downloadJobManager.Label = StatusLabel;
                 downloadJobManager.EMMFilesListView = EMMFilesListView;
                 downloadJobManager.DownloadProgressBar = DownloadProgressBar;
-                downloadJobManager.StartDownloadJobsAsync();
+            Progress<double> progress = new Progress<double>(i => DownloadProgressBar.Progress = i);
+            downloadJobManager.StartDownloadJobsAsync(progress);
 
 
             //DownloadManager.DownloadAsync(item.Path, item.URL);

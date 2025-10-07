@@ -27,7 +27,7 @@ namespace EMM_Enterprise_Files
 
 
 
-        public async Task StartDownloadJobsAsync()
+        public async Task StartDownloadJobsAsync(Progress<Double> progress)
         {
            EMMFilesListView.IsEnabled = false;
             int i = 0;
@@ -35,11 +35,18 @@ namespace EMM_Enterprise_Files
             
            foreach (var file in PayloadEMMFile)
             {
-                
-                Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
-                Progress<double> progress = new Progress<double>(i => DownloadProgressBar.Progress = i);
-                await DownloadManager.DownloadAsync(file.Path, file.URL, progress);
-                Label.Text = $"Finished {file.Name}";
+                try
+                {
+                    //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
+                    
+                    await DownloadManager.DownloadAsync(file.Path, file.URL, progress);
+                    i++;
+                    //Label.Text = $"Finished {file.Name}";
+                }
+                catch (Exception e)
+                {
+          //          Label.Text += $"{e.HResult}: {e.Message}";
+                }
                 
             }
            PayloadEMMFile.Clear();
