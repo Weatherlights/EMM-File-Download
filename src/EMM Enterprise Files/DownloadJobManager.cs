@@ -41,6 +41,10 @@ namespace EMM_Enterprise_Files
                     //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
 
                     await DownloadManager.DownloadAsync(file.Path, file.URL, progress);
+                    if (file.IsCompliant == EMMFile.compliancestate.NonCompliant) // file has wrong hash
+                    {
+                        File.Delete(file.Path);  
+                    }
                     i++;
                     Android.Util.Log.Debug("DownloadJobManager", $"Download completed.");
                     //Label.Text = $"Finished {file.Name}";
