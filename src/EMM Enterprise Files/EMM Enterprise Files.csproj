@@ -40,14 +40,14 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidSigningStorePass></AndroidSigningStorePass>
 	  <AndroidSigningKeyAlias>emmfilesync</AndroidSigningKeyAlias>
 	  <AndroidSigningKeyPass></AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidSigningStorePass></AndroidSigningStorePass>
 	  <AndroidSigningKeyAlias>emmfilesync</AndroidSigningKeyAlias>
 	  <AndroidSigningKeyPass></AndroidSigningKeyPass>
@@ -71,14 +71,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Include="Platforms\Android\Resources\values\arrays.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <AndroidResource Include="Resources\xml\managed_configuration.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.9" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.110" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
+		<PackageReference Include="XAct.Core.PCL" Version="0.0.5014" />
+		<PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.10.3" />
 	</ItemGroup>
 
 	<ItemGroup>
