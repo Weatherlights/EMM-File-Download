@@ -43,40 +43,42 @@ namespace EMM_Enterprise_Files
            //EMMFilesListView.IsEnabled = false;
             int i = 0;
             int maxi = PayloadEMMFile.Count;
-            
-           foreach (var file in PayloadEMMFile)
+            if (maxi > 0)
             {
-                try
+                foreach (var file in PayloadEMMFile)
                 {
-                    //string temporaryFilePath = DownloadJobManager.GetTemporaryFileLocation();
-# if DEBUG
-                    Android.Util.Log.Debug("DownloadJobManager", $"Downloading {file.URL} to {file.Path}.");
-#endif
-                    progressText.Report($"Downloading {file.Name} ({i + 1}/{maxi})");
-                    //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
-
-                    await DownloadManager.DownloadAsync(file.Path, file.URL, progress, BufferSize);
-                    
-                    if (file.IsCompliant == EMMFile.compliancestate.NonCompliant) // file has wrong hash
+                    try
                     {
-                        File.Delete(file.Path);  
-                    }
-                    i++;
+                        //string temporaryFilePath = DownloadJobManager.GetTemporaryFileLocation();
 #if DEBUG
-                    Android.Util.Log.Debug("DownloadJobManager", $"Download completed.");
+                        Android.Util.Log.Debug("DownloadJobManager", $"Downloading {file.URL} to {file.Path}.");
 #endif
-                    
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Android.Util.Log.Debug("DownloadJobManager", $"Download failed {e.HResult}: {e.Message}");
-#endif
-                    progressText.Report($"Download failed {e.HResult}");
-                }
+                        progressText.Report($"Downloading {file.Name} ({i + 1}/{maxi})");
+                        //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
 
+                        await DownloadManager.DownloadAsync(file.Path, file.URL, progress, BufferSize);
+
+                        if (file.IsCompliant == EMMFile.compliancestate.NonCompliant) // file has wrong hash
+                        {
+                            File.Delete(file.Path);
+                        }
+                        i++;
+#if DEBUG
+                        Android.Util.Log.Debug("DownloadJobManager", $"Download completed.");
+#endif
+
+                    }
+                    catch (Exception e)
+                    {
+#if DEBUG
+                        Android.Util.Log.Debug("DownloadJobManager", $"Download failed {e.HResult}: {e.Message}");
+#endif
+                        progressText.Report($"Download failed {e.HResult}");
+                    }
+
+                }
+                progressText.Report($"Download completed.");
             }
-            progressText.Report($"Download completed.");
             PayloadEMMFile.Clear();
 
             //EMMFilesListView.IsEnabled = true;
