@@ -17,7 +17,8 @@ namespace EMM_Enterprise_Files
 
         public string Name { get; set; }
         public string URL { get; set; }
-        public string Path { get; set; }
+        private string _Path;
+        public string Path { get { return VariableHandler.ResolveVariables(this._Path); } set { this._Path = value; } }
         public string Base64 { get; set; }
         public string Hash { get; set; }
         public intent Intent { get; set; }
@@ -45,6 +46,7 @@ namespace EMM_Enterprise_Files
                 return compliancestate.NonCompliant;
             }
         }
+
 
 
 

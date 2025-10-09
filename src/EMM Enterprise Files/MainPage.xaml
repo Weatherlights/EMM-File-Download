@@ -32,7 +32,7 @@
                     <DataTemplate x:DataType="local:EMMFile">
                         
                         <TextCell Text="{Binding Name}"
-                          Detail="{Binding URL}" />
+                          Detail="{Binding Path}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

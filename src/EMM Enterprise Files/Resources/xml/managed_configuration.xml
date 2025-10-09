@@ -37,6 +37,7 @@
   android:defaultValue="false"
   android:description="@string/managed_config_intent_description"
   android:entryValues="@array/managed_config_intent_values"
+  android:entries="@array/intent_values"
   android:key="intent"
   android:restrictionType="choice"
   android:title="@string/managed_config_intent_title" />

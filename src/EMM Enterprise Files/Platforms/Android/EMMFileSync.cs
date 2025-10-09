@@ -34,12 +34,13 @@ namespace EMM_Enterprise_Files
 
                 eMMFile.URL = bundle.GetString("url");
                 eMMFile.Path = bundle.GetString("path");
-                eMMFile.Base64 = bundle.GetString("base64");
+                //eMMFile.Base64 = bundle.GetString("base64");
+                
                 eMMFile.Hash = bundle.GetString("hash");
 
-                if (bundle.GetString("Intent") == "Create")
+                if (bundle.GetString("intent") == "Create")
                     eMMFile.Intent = EMMFile.intent.Create;
-                else if (bundle.GetString("Intent") == "Compliant")
+                else if (bundle.GetString("intent") == "Compliant")
                     eMMFile.Intent = EMMFile.intent.Compliant;
                 else
                     eMMFile.Intent = EMMFile.intent.Available;

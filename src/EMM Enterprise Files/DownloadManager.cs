@@ -40,31 +40,32 @@ namespace EMM_Enterprise_Files
         public static bool IsValidString(this string s) => !(IsNullOrEmpty(s) && IsNullOrWhiteSpaces(s));
     }
 
-    public static partial class DownloadManager
+    public class DownloadManager
     {
-        static HttpClient Client = new HttpClient();
+        public HttpClient Client = new HttpClient();
 
-        public static void UseCustomHttpClient(HttpClient client)
+        public void UseCustomHttpClient(HttpClient client)
         {
             if (client is null)
                 throw new ArgumentNullException($"The {nameof(client)} can't be null.");
 
-            Client.Dispose();
-            Client = null;
-            Client = client;
+           Client.Dispose();
+           Client = null;
+           Client = client;
         }
 
-        public static async Task<string> DownloadAsync(
+        public async Task<string> DownloadAsync(
             string file,
             string url,
             IProgress<double> progress = default(IProgress<double>),
+            int bufferSize = 2048,
             CancellationToken token = default(CancellationToken))
         {
             if (!(file.IsValidString() && url.IsValidString()))
                 throw new ArgumentNullException($"the {nameof(file)} and {nameof(url)} parameters can't be null.");
 
             //TODO colocar isso dentro de alguma pasta
-            var path = PlataformFolder();
+            //var path = PlataformFolder();
 
             using (var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
             {
@@ -76,7 +77,7 @@ namespace EMM_Enterprise_Files
                 using (var streamToReadFrom = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
                     var totalRead = 0L;
-                    var buffer = new byte[2048];
+                    var buffer = new byte[bufferSize];
                     var isMoreToRead = true;
                     var fileWriteTo = file;//Path.Combine(path, file);
                     var output = new FileStream(fileWriteTo, FileMode.Create);
@@ -94,12 +95,19 @@ namespace EMM_Enterprise_Files
                             await output.WriteAsync(buffer, 0, read);
 
                             totalRead += read;
-                            double progressToReport = (totalRead * 1d) / (total * 1d) * 100;
-                            progress.Report(progressToReport/100);
+
+#if DEBUG
+                            Android.Util.Log.Debug("DownloadManager", $"Total read {totalRead}");
+#endif
+                            double progressToReport = (totalRead * 1d) / (total * 1d);
+#if DEBUG
+                            Android.Util.Log.Debug("DownloadManager", $"Progress {progressToReport}");
+#endif
+                            progress.Report(progressToReport);
                         }
 
                     } while (isMoreToRead);
-
+                    progress.Report(1.0);
                     output.Close();
                     return fileWriteTo;
                 }

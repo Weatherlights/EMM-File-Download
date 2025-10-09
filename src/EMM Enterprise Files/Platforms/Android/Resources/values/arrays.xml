@@ -10,4 +10,10 @@
         <item>Compliant</item>
     </string-array>
 
+  <string-array name="intent_values">
+    <item>Available</item>
+    <item>Create</item>
+    <item>Compliant</item>
+  </string-array>
+
 </resources>

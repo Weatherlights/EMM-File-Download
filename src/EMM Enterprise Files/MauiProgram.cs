@@ -1,5 +1,6 @@
 ﻿using AndroidX.Work;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace EMM_Enterprise_Files
 {
@@ -19,8 +20,10 @@ namespace EMM_Enterprise_Files
 
 #if DEBUG
     		builder.Logging.AddDebug();
-#endif      
-            //var app = builder.Build();
+#endif
+
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
             return builder.Build();
         }
