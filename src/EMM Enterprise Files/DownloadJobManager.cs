@@ -73,11 +73,11 @@ namespace EMM_Enterprise_Files
 #if DEBUG
                         Android.Util.Log.Debug("DownloadJobManager", $"Download failed {e.HResult}: {e.Message}");
 #endif
-                        progressText.Report($"Download failed {e.HResult}");
+                        progressText.Report($"Download failed {e.HResult}: {e.Message}");
                     }
 
                 }
-                progressText.Report($"Download completed.");
+                
             }
             PayloadEMMFile.Clear();
 
