@@ -7,30 +7,26 @@ using XAct;
 
 namespace EMM_Enterprise_Files
 {
-    internal class DownloadJobManager
+    public partial class DownloadJobManager
     {
 
-        List<EMMFile> PayloadEMMFile = new List<EMMFile>();
+        List<IEMMProfile> PayloadEMMProfiles = new List<IEMMProfile>();
         public Label Label { get; set; }
         public ListView EMMFilesListView { get; set; }
         public ProgressBar DownloadProgressBar { get; set; }
         private int BufferSize = 2048;
-        private DownloadManager DownloadManager = new DownloadManager();
+        //private DownloadManager DownloadManager = new DownloadManager();
 
 
-        public DownloadJobManager() { }
-        public DownloadJobManager(int bufferSize)
+        public void AddDownloadJob(IEMMProfile profile)
         {
-            this.BufferSize = bufferSize;
+            if (profile is null)
+                throw new ArgumentNullException($"The {nameof(profile)} can't be null.");
+
+            PayloadEMMProfiles.Add(profile);
         }
 
-        public void AddDownloadJob(EMMFile file)
-        {
-            if (file is null)
-                throw new ArgumentNullException($"The {nameof(file)} can't be null.");
 
-            PayloadEMMFile.Add(file);
-        }
 
         public static string GetTemporaryFileLocation()
         {
@@ -38,48 +34,33 @@ namespace EMM_Enterprise_Files
             return fileName;
         }
 
-        public async Task StartDownloadJobsAsync(Progress<Double> progress, IProgress<string> progressText)
+        //public partial Task StartDownloadJobsAsync(Progress<Double> progress, IProgress<string> progressText);
+        public void StartDownloadJobs(Progress<Double> progress, IProgress<string> progressText)
         {
-           //EMMFilesListView.IsEnabled = false;
+            //EMMFilesListView.IsEnabled = false;
             int i = 0;
-            int maxi = PayloadEMMFile.Count;
+            int maxi = PayloadEMMProfiles.Count;
             if (maxi > 0)
             {
-                foreach (var file in PayloadEMMFile)
+                progressText.Report("Syncing files");
+                foreach (var profile in PayloadEMMProfiles)
                 {
                     try
                     {
                         //string temporaryFilePath = DownloadJobManager.GetTemporaryFileLocation();
-#if DEBUG
-                        Android.Util.Log.Debug("DownloadJobManager", $"Downloading {file.URL} to {file.Path}.");
-#endif
-                        progressText.Report($"Downloading {file.Name} ({i + 1}/{maxi})");
-                        //Label.Text = $"Downloading {file.Name} ({i}/{maxi})";
-
-                        await DownloadManager.DownloadAsync(file.Path, file.URL, progress, BufferSize);
-
-                        if (file.IsCompliant == EMMFile.compliancestate.NonCompliant) // file has wrong hash
-                        {
-                            File.Delete(file.Path);
-                        }
+                        profile.InitializeFileEnforcement();
                         i++;
-#if DEBUG
-                        Android.Util.Log.Debug("DownloadJobManager", $"Download completed.");
-#endif
 
                     }
                     catch (Exception e)
                     {
-#if DEBUG
-                        Android.Util.Log.Debug("DownloadJobManager", $"Download failed {e.HResult}: {e.Message}");
-#endif
                         progressText.Report($"Download failed {e.HResult}: {e.Message}");
                     }
 
                 }
-                
+
             }
-            PayloadEMMFile.Clear();
+            PayloadEMMProfiles.Clear();
 
             //EMMFilesListView.IsEnabled = true;
         }

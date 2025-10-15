@@ -41,9 +41,11 @@ namespace EMM_Enterprise_Files
 
             _notificationManager = NotificationManagerCompat.From(this);
 
-            PeriodicWorkRequest taxWorkRequest = PeriodicWorkRequest.Builder.From<DownloadComplianceWorker>(TimeSpan.FromMinutes(20)).Build();
+            ConfigurationProvider configurationProvider = ConfigurationProvider.GetInstance();
 
-            WorkManager.Instance.Enqueue(taxWorkRequest);
+           PeriodicWorkRequest backgroundEMMFileSyncTaskRequest = PeriodicWorkRequest.Builder.From<DownloadComplianceWorker>(TimeSpan.FromMinutes(configurationProvider.GetSyncInterval())).Build();
+
+           WorkManager.GetInstance(this).EnqueueUniquePeriodicWork("EMMFileSyncWork", ExistingPeriodicWorkPolicy.Keep, backgroundEMMFileSyncTaskRequest);
         }
 
         private void SendOnChannel1(string title, string message)

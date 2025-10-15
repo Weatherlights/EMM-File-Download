@@ -2,20 +2,29 @@
 <resources>
 
   <!-- Managed configuration -->
-  <string name="managed_config_profiles_array_title">File sync rules</string>
-  <string name="managed_config_profiles_array_description">Collection of file synchronisation rules.</string>
+  <string name="managed_config_syncInterval_title">Synchronisation interval</string>
+  <string name="managed_config_syncInterval_description">How often the synchronisation task should run (in minutes). The minimum value is 15 minutes.</string>
+  <string name="managed_config_advanceddownloads_array_title">File sync rules</string>
+  <string name="managed_config_advanceddownloads_array_description">Collection of file synchronisation rules.</string>
   <string name="managed_config_name_title">Name</string>
   <string name="managed_config_name_description">Specifies a name for the file.</string>
   <string name="managed_config_url_title">Download URL</string>
   <string name="managed_config_url_description">Specifies the url from which the file is downloaded.</string>
   <string name="managed_config_path_title">Target file path</string>
   <string name="managed_config_path_description">Specifies the local file path to which the file is downloaded.</string>
-  <string name="managed_config_profile_bundle_title">File sync rule</string>
-  <string name="managed_config_profile_bundle_description">A file sync rule</string>
+  <string name="managed_config_advanceddownload_bundle_title">File sync rule</string>
+  <string name="managed_config_advanceddownload_bundle_description">A file sync rule</string>
     <string name="managed_config_intent_title">Intent</string>
   <string name="managed_config_intent_description">Specify how the rule should be enforced. Available offers self-service through the app GUI. Create creates the file if it does not exist. Compliant creates the file and overwrites it when the file hash does not equal the configured hash.</string>
   <string name="managed_config_hash_title">File Hash</string>
   <string name="managed_config_hash_description">Provide a file hash that can be used to validate the compliance and integrity of the downloaded file. This value is required when using the Compliant Intent.</string>
+  <string name="managed_config_icon_title">Base64 encoded icon (optional)</string>
+  <string name="managed_config_icon_description">A Base64 encoded image file that will be displayed as icon. Leave blank to show a default icon.</string>
 
-
+  <string name="managed_config_base64files_array_title">Base64 file profiles</string>
+  <string name="managed_config_base64files_array_description">Collection of Base64 file profiles. You can use Base64 for in-configuration files that are small in size.</string>
+  <string name="managed_config_base64file_bundle_title">Base64 file profile</string>
+  <string name="managed_config_base64file_bundle_description">A Base64 profile. You need to provide base64 content.</string>
+  <string name="managed_config_base64_title">Base64 content</string>
+  <string name="managed_config_base64_description">The Base64 encoded file content.</string>
 </resources>

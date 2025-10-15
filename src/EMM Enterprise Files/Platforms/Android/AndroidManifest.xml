@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" package="com.weatherlights.emmfilesynct1" android:versionCode="24" android:versionName="1.16">
+<manifest xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" package="com.weatherlights.emmfilesynct1" android:versionCode="30" android:versionName="1.22">
 	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="EMM Filesync">
+		<!--receiver android:exported="true" tools:node="merge" android:name=".MyBroadcastReceiver" >
+      <intent-filter>
+        <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+      </intent-filter>
+    </receiver-->
 		<meta-data android:name="android.content.APP_RESTRICTIONS" android:resource="@xml/managed_configuration" />
 		<service android:name="androidx.work.impl.foreground.SystemForegroundService" android:label="Enforcement" android:foregroundServiceType="dataSync" tools:node="merge" tools:ignore="Instantiatable" />
-             /&gt;
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

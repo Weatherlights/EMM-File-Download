@@ -5,6 +5,7 @@ using Android.Text.Style;
 using AndroidX.Core.App;
 using AndroidX.Work;
 using CommunityToolkit.Mvvm.Messaging;
+using Android.App;
 using Java.Net;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -30,7 +31,7 @@ namespace EMM_Enterprise_Files
 
         private ForegroundInfo createForegroundInfo(String progress, int i)
         {
-
+           
             Notification notification = new NotificationCompat.Builder(_context, MainApplication.Channel1Id)
                     .SetContentTitle("EMM FileSync")
                     .SetTicker("EMM FileSync")
@@ -40,7 +41,7 @@ namespace EMM_Enterprise_Files
                     .SetOnlyAlertOnce(true)
                     // Add the cancel action to the notification which can
                     // be used to cancel the worker
-                    .SetProgress(100, i, false)
+                    //.SetProgress(100, i, false)
                     .Build();
             
     
@@ -51,9 +52,9 @@ namespace EMM_Enterprise_Files
         {
 
 
-            EMMFileSync eMMFileSync = new EMMFileSync();
-            DownloadJobManager djm = new DownloadJobManager(204800);
-            List<EMMFile> eMMFiles = eMMFileSync.GetEMMFileData();
+            ConfigurationProvider eMMFileSync = ConfigurationProvider.GetInstance();
+            DownloadJobManager djm = new DownloadJobManager();
+            List<IEMMProfile> eMMFiles = EMMProfile.All;
             var messenger = MauiApplication.Current.Services.GetService<IMessenger>();
             //messenger.Send(new MessageData(2, "EMM Enterprise Files", "Enforcing compliance..."));
 
@@ -63,7 +64,7 @@ namespace EMM_Enterprise_Files
                 
                 if ((int)(i * 100) % 5 == 0)
                 {
-                    SetForegroundAsync(createForegroundInfo($"Download in progress {i * 100:0.##}%", (int)(i * 100)));
+                    SetForegroundAsync(createForegroundInfo($"Download in progress", (int)(i * 100)));
                 }
 
                 // _notificationManager.Notify(2, notification.Build());
@@ -72,10 +73,10 @@ namespace EMM_Enterprise_Files
                     SetForegroundAsync(createForegroundInfo(i, 100));
             });
             //NotificationManagerCompat _notificationManager = NotificationManagerCompat.From(_context);
-            
+            SetForegroundAsync(createForegroundInfo("Hello", 100));
             foreach (var file in eMMFiles)
             {
-                if (file.IsCompliant == EMMFile.compliancestate.NonCompliant)
+                if (file.IsCompliant == compliancestate.NonCompliant)
                 {
                     djm.AddDownloadJob(file);
 #if DEBUG
@@ -91,7 +92,7 @@ namespace EMM_Enterprise_Files
             }
             //  Progress<double> progress = new Progress<double>();
 
-            djm.StartDownloadJobsAsync(progress, progressText);
+            djm.StartDownloadJobs(progress, progressText);
 
             //_notificationManager.Cancel(2);
             Android.Util.Log.Debug("DownloadComplianceWorker", $"Download jobs started.");
@@ -100,9 +101,9 @@ namespace EMM_Enterprise_Files
         async void EnforceCompliance2()
         {
 
-            
-            EMMFileSync eMMFileSync = new EMMFileSync();
-            DownloadJobManager djm = new DownloadJobManager(204800);
+
+            ConfigurationProvider eMMFileSync = ConfigurationProvider.GetInstance();
+            DownloadJobManager djm = new DownloadJobManager();
             List<EMMFile> eMMFiles = eMMFileSync.GetEMMFileData();
             var messenger = MauiApplication.Current.Services.GetService<IMessenger>();
             //messenger.Send(new MessageData(2, "EMM Enterprise Files", "Enforcing compliance..."));
@@ -135,7 +136,7 @@ namespace EMM_Enterprise_Files
             });
             foreach (var file in eMMFiles)
             {
-                if (file.IsCompliant == EMMFile.compliancestate.NonCompliant)
+                if (file.IsCompliant == compliancestate.NonCompliant)
                 {
                     djm.AddDownloadJob(file);
 #if DEBUG
@@ -151,7 +152,7 @@ namespace EMM_Enterprise_Files
             }
           //  Progress<double> progress = new Progress<double>();
 
-            djm.StartDownloadJobsAsync(progress, progressText);
+           // djm.StartDownloadJobsAsync(progress, progressText);
 
             //_notificationManager.Cancel(2);
             Android.Util.Log.Debug("DownloadComplianceWorker", $"Download jobs started.");

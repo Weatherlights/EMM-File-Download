@@ -16,6 +16,14 @@ namespace EMM_Enterprise_Files
 {
     public partial class ManagedConfigurationProvider
     {
+        private static ManagedConfigurationProvider _instance = new ManagedConfigurationProvider();
+
+        private ManagedConfigurationProvider()
+        {
+        }
+
+        public static ManagedConfigurationProvider GetInstance() { return _instance; }
+
         public partial string GetStringValue(string key)
         {
             var manager = (RestrictionsManager)Platform.AppContext.GetSystemService(Context.RestrictionsService);
@@ -43,7 +51,7 @@ namespace EMM_Enterprise_Files
             Java.Lang.Object[] bundles = bundle.GetParcelableArray(key, bundle.Class);
             if (bundles == null)
             {
-                bundle = DummyBundle.getDummyBundle();
+                bundle = DummyBundle.getDummyBundle(key);
                 bundles = bundle.GetParcelableArray(key, bundle.Class);
             }
 

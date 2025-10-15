@@ -8,31 +8,41 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-            </Grid>
+
             <!-- Fix: Set ItemsSource to a valid collection, e.g. Binding to a property -->
             <Label
                 Text="Select a file to download"
                 FontAttributes="Bold"
                 HorizontalOptions="Center" 
                 x:Name="InstructionLabel"/>
-            <ListView
-                ItemsSource="{x:Static local:EMMFile.All}"
-                x:Name="EMMFilesListView"
-                ItemSelected="OnItemSelected">
+            <ListView ItemsSource="{x:Static local:EMMProfile.All}" RowHeight="120">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local:EMMFile">
-                        
-                        <TextCell Text="{Binding Name}"
-                          Detail="{Binding Path}" />
+                    <DataTemplate x:DataType="local:IEMMProfile">
+                        <ViewCell>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2"
+                           Source="{Binding Icon}"
+                           Aspect="AspectFill"
+                           HeightRequest="60"
+                           WidthRequest="60" />
+                                <Label Grid.Column="1"
+                           Text="{Binding Name}"
+                           FontAttributes="Bold" />
+                                <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{Binding Path}"
+                           FontAttributes="Italic"
+                            />
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

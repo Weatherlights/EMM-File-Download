@@ -19,20 +19,20 @@ namespace EMM_Enterprise_Files
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            
-            EMMFile item = args.SelectedItem as EMMFile;
+
+            IEMMProfile item = args.SelectedItem as IEMMProfile;
 
             // Check if notifications are enabled
-
+     
 
 
             downloadJobManager.AddDownloadJob(item);
                 downloadJobManager.Label = StatusLabel;
-                downloadJobManager.EMMFilesListView = EMMFilesListView;
+
                 downloadJobManager.DownloadProgressBar = DownloadProgressBar;
             Progress<double> progress = new Progress<double>(i => DownloadProgressBar.Progress = i);
             Progress<string> progressText = new Progress<string>(i => StatusLabel.Text = i);
-            downloadJobManager.StartDownloadJobsAsync(progress, progressText);
+            downloadJobManager.StartDownloadJobs(progress, progressText);
 
 
             //DownloadManager.DownloadAsync(item.Path, item.URL);

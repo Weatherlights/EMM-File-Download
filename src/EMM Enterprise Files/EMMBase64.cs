@@ -1,27 +1,28 @@
-﻿using Android.Widget;
+﻿using Android.Text.Style;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using XSystem.Security.Cryptography;
-using static Android.Provider.ContactsContract;
 
 namespace EMM_Enterprise_Files
 {
-    
-
-    public partial class EMMFile : IEMMProfile
+    public class EMMBase64 : IEMMProfile
     {
-
         public string Name { get; set; }
         public string URL { get; set; }
-        protected string _Path;
+        public string base64 { get; set; }
+        private string _Path;
         public string Path { get { return VariableHandler.ResolveVariables(this._Path); } set { this._Path = value; } }
         public intent Intent { get; set; }
-        private string TemporaryPath => GetTemporaryPath();
-        public string Base64IconString { get; set; }
+
+        public compliancestate IsCompliant
+        {
+            get
+            {
+                return GetComplianceState(this.Path, this.base64, this.Intent);
+            }
+        }
 
         public ImageSource Icon
         {
@@ -37,49 +38,9 @@ namespace EMM_Enterprise_Files
             }
         }
 
+        public string Base64IconString { get; set; }
 
-        private partial string GetTemporaryPath();
-
-        public string Hash { get; set; }
-
-        public string Base64 { get; set; }
-        public long DownloadJobId = 0;
-
-
-        public compliancestate IsCompliant { get
-            {
-                return GetComplianceState(this.Path, this.Hash, this.Intent);
-            }
-        }
-
-        
-        
-
-        public partial void InitializeFileEnforcement();
-
-        public void ProcessDownloadedFile()
-        {
-            if (EMMFile.GetComplianceState(TemporaryPath, this.Hash, this.Intent) == compliancestate.Compliant)
-            {
-                var destFile = this.Path;
-                try
-                {
-                    System.IO.File.Move(TemporaryPath, destFile, true);
-                    
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-            else
-            {
-                System.IO.File.Delete(TemporaryPath);
-            }
-        }
-
-
-        public static compliancestate GetComplianceState(string Path, string Hash, intent Intent)
+        public static compliancestate GetComplianceState(string Path, string base64, intent Intent)
         {
             if (Intent == intent.Create)
             {
@@ -90,9 +51,9 @@ namespace EMM_Enterprise_Files
             {
                 if (File.Exists(Path))
                 {
-                    if (Hash == null)
+                    if (base64 == null)
                         return compliancestate.Compliant;
-                    if (EMMFile.GetChecksum(Path) == Hash)
+                    if (EMMBase64.GetBase64String(Path) == base64)
                         return compliancestate.Compliant;
                 }
             }
@@ -103,15 +64,30 @@ namespace EMM_Enterprise_Files
             return compliancestate.NonCompliant;
         }
 
-
-        private static string GetChecksum(string file)
+        public void InitializeFileEnforcement()
         {
-            using (FileStream stream = File.OpenRead(file))
-            {
-                var sha = new SHA256Managed();
-                byte[] checksum = sha.ComputeHash(stream);
-                return BitConverter.ToString(checksum).Replace("-", String.Empty);
+
+            if (GetComplianceState(Path, base64, Intent) == compliancestate.NonCompliant) {
+                // Convert Base64 string to byte array
+                byte[] imageBytes = Convert.FromBase64String(base64);
+
+                // Specify the path to save the image
+
+                // Write the byte array to a file
+                File.WriteAllBytes(Path, imageBytes);
             }
+        }
+
+
+        static private string GetBase64String(string filePath)
+        {
+            
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+            string base64String = Convert.ToBase64String(fileBytes);
+#if DEBUG
+            Android.Util.Log.Debug("EMMBase64", base64String);
+#endif
+            return base64String;
         }
     }
 }

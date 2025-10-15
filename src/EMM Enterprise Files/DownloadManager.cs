@@ -40,8 +40,9 @@ namespace EMM_Enterprise_Files
         public static bool IsValidString(this string s) => !(IsNullOrEmpty(s) && IsNullOrWhiteSpaces(s));
     }
 
-    public class DownloadManager
+    public class DownloadManager2
     {
+
         public HttpClient Client = new HttpClient();
 
         public void UseCustomHttpClient(HttpClient client)
