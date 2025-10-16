@@ -20,7 +20,7 @@ namespace EMM_Enterprise_Files
     {
         private Context context = Platform.AppContext;
         private DownloadManager downloadManager = DownloadManager.FromContext(Platform.AppContext);
-        public static Dictionary<string, long> downloadTracker = new Dictionary<string, long>();
+        
 
 
 

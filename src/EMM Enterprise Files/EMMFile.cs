@@ -1,4 +1,6 @@
-﻿using Android.Widget;
+﻿using Android.App;
+using Android.Content;
+using Android.Widget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,23 @@ namespace EMM_Enterprise_Files
         public intent Intent { get; set; }
         private string TemporaryPath => GetTemporaryPath();
         public string Base64IconString { get; set; }
+        public bool isChecked { get; set; }
+        public bool isEnabled
+        {
+            get
+            {
+                if (this.IsCompliant == compliancestate.Compliant)
+                    return false;
+                return true;
+            }
+        }
+        public EMMProfileViewModel eMMProfileViewModel { get; } = new EMMProfileViewModel();
+
+
+        public EMMFile()
+        {
+            this.eMMProfileViewModel.Status = profilestatusvalue.Available;
+        }
 
         public ImageSource Icon
         {
@@ -39,6 +58,7 @@ namespace EMM_Enterprise_Files
 
 
         private partial string GetTemporaryPath();
+        private partial void ProcessDownload();
 
         public string Hash { get; set; }
 
@@ -53,9 +73,40 @@ namespace EMM_Enterprise_Files
         }
 
         
-        
 
-        public partial void InitializeFileEnforcement();
+        public void InitializeFileEnforcement() {
+            this.eMMProfileViewModel.Status = profilestatusvalue.Enforcing;
+            this.eMMProfileViewModel.IsAvailable = false;
+
+            if (EMMFile.GetComplianceState(this.TemporaryPath, this.Hash, this.Intent) == compliancestate.Compliant)
+            {
+                try
+                {
+                    System.IO.File.Move(TemporaryPath, Path, true);
+                    this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
+                }
+                catch (Exception ex)
+                {
+                    this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
+                    this.eMMProfileViewModel.IsAvailable = true;
+
+                }
+            }
+            else
+            {
+                try
+                {
+                    this.ProcessDownload();
+                }
+                catch (Exception ex)
+                {
+                    this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
+                    this.eMMProfileViewModel.IsAvailable = true;
+                }
+            }
+
+
+        }
 
         public void ProcessDownloadedFile()
         {
@@ -65,17 +116,26 @@ namespace EMM_Enterprise_Files
                 try
                 {
                     System.IO.File.Move(TemporaryPath, destFile, true);
-                    
+                    this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
                 }
                 catch (Exception ex)
                 {
-
+                    this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
                 }
             }
             else
             {
                 System.IO.File.Delete(TemporaryPath);
+                this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
             }
+
+            if (File.Exists(Path))
+                if (IsCompliant == compliancestate.NonCompliant) // file has wrong hash
+                {
+                    //File.Delete(Path);
+                    this.eMMProfileViewModel.Status = profilestatusvalue.Available;
+                    this.eMMProfileViewModel.IsAvailable = true;
+                }
         }
 
 

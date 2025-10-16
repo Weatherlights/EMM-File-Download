@@ -2,61 +2,85 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:EMM_Enterprise_Files" 
-             x:Class="EMM_Enterprise_Files.MainPage">
+             x:Class="EMM_Enterprise_Files.MainPage"
+             Title="Profiles">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <StackLayout
+            Padding="0,0"
+            Spacing="0">
+            <Grid Padding="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"  />
+                    <RowDefinition Height="1*"  />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto " />
+                </Grid.RowDefinitions>
 
-            <!-- Fix: Set ItemsSource to a valid collection, e.g. Binding to a property -->
-            <Label
+                <!-- Fix: Set ItemsSource to a valid collection, e.g. Binding to a property -->
+                <Label
                 Text="Select a file to download"
                 FontAttributes="Bold"
-                HorizontalOptions="Center" 
+                HorizontalOptions="Center"
+                Grid.Row="0"
                 x:Name="InstructionLabel"/>
-            <ListView ItemsSource="{x:Static local:EMMProfile.All}" RowHeight="120">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local:IEMMProfile">
-                        <ViewCell>
-                            <Grid Padding="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="2*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.RowSpan="2"
+                <ListView ItemsSource="{x:Static local:EMMProfile.All}" RowHeight="120" Grid.Row="1"  VerticalScrollBarVisibility="Never">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:IEMMProfile">
+                            <ViewCell>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.RowSpan="2"
                            Source="{Binding Icon}"
                            Aspect="AspectFill"
                            HeightRequest="60"
                            WidthRequest="60" />
-                                <Label Grid.Column="1"
+                                    <Label Grid.Column="1"
                            Text="{Binding Name}"
                            FontAttributes="Bold" />
-                                <Label Grid.Row="1"
+                                    <Label Grid.Row="1"
                            Grid.Column="1"
-                           Text="{Binding Path}"
+                                       Grid.ColumnSpan="2"
+                           Text="{Binding eMMProfileViewModel.Status}"
                            FontAttributes="Italic"
                             />
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Label
+
+                                    <CheckBox x:Name="checkBox"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Color="#000063"
+                                    HorizontalOptions="End"
+                                    IsEnabled="{Binding eMMProfileViewModel.IsAvailable}"
+                                    IsChecked="{Binding isChecked, Mode=TwoWay}" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label
      Text="Status: Idle"
      FontAttributes="Bold"
-
-     x:Name="StatusLabel"/>
-            <ProgressBar Progress="0"
+     x:Name="StatusLabel" Grid.Row="2"/>
+                <ProgressBar Progress="0"
              ProgressColor="Orange"
              x:Name="DownloadProgressBar"
+                          Grid.Row="3"
             />
-
-        </VerticalStackLayout>
+                <Button Text="Enforce" Clicked="Button_Clicked" Grid.Row="4"/>
+            </Grid>
+        </StackLayout>
     </ScrollView>
 
 </ContentPage>

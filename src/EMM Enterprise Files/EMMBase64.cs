@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EMM_Enterprise_Files
 {
-    public class EMMBase64 : IEMMProfile
+    public partial class EMMBase64 : IEMMProfile
     {
         public string Name { get; set; }
         public string URL { get; set; }
@@ -15,6 +15,16 @@ namespace EMM_Enterprise_Files
         private string _Path;
         public string Path { get { return VariableHandler.ResolveVariables(this._Path); } set { this._Path = value; } }
         public intent Intent { get; set; }
+       
+        public bool isChecked { get; set; }
+        public bool isEnabled { get
+            {
+                if (this.IsCompliant == compliancestate.Compliant)
+                    return false;
+                return true;
+            }
+        }
+        public EMMProfileViewModel eMMProfileViewModel { get; } = new EMMProfileViewModel();
 
         public compliancestate IsCompliant
         {
@@ -39,6 +49,8 @@ namespace EMM_Enterprise_Files
         }
 
         public string Base64IconString { get; set; }
+
+        
 
         public static compliancestate GetComplianceState(string Path, string base64, intent Intent)
         {
@@ -68,6 +80,8 @@ namespace EMM_Enterprise_Files
         {
 
             if (GetComplianceState(Path, base64, Intent) == compliancestate.NonCompliant) {
+                this.eMMProfileViewModel.Status = profilestatusvalue.Enforcing;
+                this.eMMProfileViewModel.IsAvailable = false;
                 // Convert Base64 string to byte array
                 byte[] imageBytes = Convert.FromBase64String(base64);
 
@@ -75,6 +89,7 @@ namespace EMM_Enterprise_Files
 
                 // Write the byte array to a file
                 File.WriteAllBytes(Path, imageBytes);
+                this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
             }
         }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EMM_Enterprise_Files.About"
+             Title="About">
+    <VerticalStackLayout>
+        <Label 
+            Text="EMM File Portal"
+            VerticalOptions="Center" 
+            FontSize="Large"
+            HorizontalOptions="Center" Margin="20" />
+        <Label 
+            Text="(c) 2025 by Hauke Goetze"
+            VerticalOptions="Start"
+        
+            HorizontalOptions="Center" />
+        <Label 
+            Text="E-Mail: hauke@hauke.us"
+            VerticalOptions="Start"
+        
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

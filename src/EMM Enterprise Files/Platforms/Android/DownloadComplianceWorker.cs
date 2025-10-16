@@ -92,7 +92,7 @@ namespace EMM_Enterprise_Files
             }
             //  Progress<double> progress = new Progress<double>();
 
-            djm.StartDownloadJobs(progress, progressText);
+            djm.StartDownloadJobs();
 
             //_notificationManager.Cancel(2);
             Android.Util.Log.Debug("DownloadComplianceWorker", $"Download jobs started.");

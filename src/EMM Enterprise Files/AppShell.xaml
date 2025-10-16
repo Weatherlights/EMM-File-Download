@@ -6,10 +6,18 @@
     xmlns:local="clr-namespace:EMM_Enterprise_Files"
     Shell.FlyoutBehavior="Disabled"
     Title="EMM_Enterprise_Files">
-
-    <ShellContent
-        Title="Home"
+    <TabBar>
+        <Tab Title="Profiles"
+             Icon="appicon.svg">
+            <ShellContent
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+        </Tab>
+        <Tab Title="About">
+            <ShellContent
+        ContentTemplate="{DataTemplate local:About}"
+        Route="About" />
+    </Tab>
+    </TabBar>
 
 </Shell>

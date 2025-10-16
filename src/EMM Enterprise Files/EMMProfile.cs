@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,14 @@ namespace EMM_Enterprise_Files
 
     public enum intent { Available, Compliant, Create };
     public enum compliancestate { Compliant, NonCompliant };
+   
+    public static class profilestatusvalue
+    {
+        public static String Available { get { return "Available"; } }
+        public static String Enforcing { get { return "Enforcing"; } }
+        public static String Completed { get { return "Completed"; } }
+        public static String Failed { get { return "Failed"; } }
+    }
 
     public interface IEMMProfile
     {
@@ -19,6 +29,10 @@ namespace EMM_Enterprise_Files
         intent Intent { get; set; }
         compliancestate IsCompliant { get; }
         string Base64IconString { get; set; }
+        public bool isChecked { get; set; }
+        public bool isEnabled { get;}
+        public EMMProfileViewModel eMMProfileViewModel { get; }
+
 
         public void InitializeFileEnforcement();
 
@@ -32,9 +46,10 @@ namespace EMM_Enterprise_Files
 
         public static List<IEMMProfile> All { get; private set; }
 
+
         static EMMProfile()
         {
-
+     
             ConfigurationProvider myEMMFileSync = ConfigurationProvider.GetInstance();
             All = new List<IEMMProfile>();
             All.AddRange(myEMMFileSync.GetEMMBase64());

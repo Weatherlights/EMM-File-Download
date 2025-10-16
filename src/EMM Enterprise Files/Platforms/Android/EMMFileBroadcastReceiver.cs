@@ -17,6 +17,7 @@ namespace EMM_Enterprise_Files
     {
         private readonly long _downloadId;
         private EMMFile _profile;
+        public static Dictionary<string, long> downloadTracker = new Dictionary<string, long>();
 
         public EMMFileBroadcastReceiver(long downloadId, EMMFile profile)
         {
@@ -52,7 +53,11 @@ namespace EMM_Enterprise_Files
             {
                 return;
             }
-            _profile.ProcessDownloadedFile(); /*
+            _profile.ProcessDownloadedFile();
+
+            //Toast.MakeText(context, $"{_file.Name} downloaded successfully.", ToastLength.Long).Show();
+            /*
+            
             else if (EMMFile.GetComplianceState(srcFile, _file.Hash, _file.Intent) == compliancestate.Compliant)
             {
                 var destFile = _file.Path;

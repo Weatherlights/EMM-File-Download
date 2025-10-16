@@ -34,15 +34,14 @@ namespace EMM_Enterprise_Files
             return fileName;
         }
 
-        //public partial Task StartDownloadJobsAsync(Progress<Double> progress, IProgress<string> progressText);
-        public void StartDownloadJobs(Progress<Double> progress, IProgress<string> progressText)
+        public async Task StartDownloadJobsAsync()
         {
             //EMMFilesListView.IsEnabled = false;
             int i = 0;
             int maxi = PayloadEMMProfiles.Count;
             if (maxi > 0)
             {
-                progressText.Report("Syncing files");
+                //progressText.Report("Syncing files");
                 foreach (var profile in PayloadEMMProfiles)
                 {
                     try
@@ -54,7 +53,38 @@ namespace EMM_Enterprise_Files
                     }
                     catch (Exception e)
                     {
-                        progressText.Report($"Download failed {e.HResult}: {e.Message}");
+                        //progressText.Report($"Download failed {e.HResult}: {e.Message}");
+                    }
+
+                }
+
+            }
+            PayloadEMMProfiles.Clear();
+
+            //EMMFilesListView.IsEnabled = true;
+        }
+
+        //public partial Task StartDownloadJobsAsync(Progress<Double> progress, IProgress<string> progressText);
+        public void StartDownloadJobs()
+        {
+            //EMMFilesListView.IsEnabled = false;
+            int i = 0;
+            int maxi = PayloadEMMProfiles.Count;
+            if (maxi > 0)
+            {
+                //progressText.Report("Syncing files");
+                foreach (var profile in PayloadEMMProfiles)
+                {
+                    try
+                    {
+                        //string temporaryFilePath = DownloadJobManager.GetTemporaryFileLocation();
+                        profile.InitializeFileEnforcement();
+                        i++;
+
+                    }
+                    catch (Exception e)
+                    {
+                        //progressText.Report($"Download failed {e.HResult}: {e.Message}");
                     }
 
                 }

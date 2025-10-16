@@ -17,28 +17,22 @@ namespace EMM_Enterprise_Files
         }
 
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+
+
+        private void Button_Clicked(object sender, EventArgs e)
         {
-
-            IEMMProfile item = args.SelectedItem as IEMMProfile;
-
-            // Check if notifications are enabled
-     
-
-
-            downloadJobManager.AddDownloadJob(item);
-                downloadJobManager.Label = StatusLabel;
-
-                downloadJobManager.DownloadProgressBar = DownloadProgressBar;
-            Progress<double> progress = new Progress<double>(i => DownloadProgressBar.Progress = i);
-            Progress<string> progressText = new Progress<string>(i => StatusLabel.Text = i);
-            downloadJobManager.StartDownloadJobs(progress, progressText);
-
-
-            //DownloadManager.DownloadAsync(item.Path, item.URL);
-
+            List<IEMMProfile> profiles = EMMProfile.All;
+            DownloadJobManager djm = new DownloadJobManager();
+            
+            foreach ( IEMMProfile profile in profiles )
+            {
+                if ( profile.isChecked && profile.isEnabled)
+                {
+                    djm.AddDownloadJob(profile);
+                }
+            }
+            djm.StartDownloadJobs();
         }
-
     }
 
 }
