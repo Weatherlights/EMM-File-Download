@@ -16,7 +16,7 @@ namespace EMM_Enterprise_Files
         public string Path { get { return VariableHandler.ResolveVariables(this._Path); } set { this._Path = value; } }
         public intent Intent { get; set; }
        
-        public bool isChecked { get; set; }
+
         public bool isEnabled { get
             {
                 if (this.IsCompliant == compliancestate.Compliant)
@@ -90,6 +90,8 @@ namespace EMM_Enterprise_Files
                 // Write the byte array to a file
                 File.WriteAllBytes(Path, imageBytes);
                 this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
+                this.eMMProfileViewModel.IsSelected = false;
+                this.eMMProfileViewModel.IsAvailable = true;
             }
         }
 

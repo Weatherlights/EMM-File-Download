@@ -42,7 +42,7 @@ namespace EMM_Enterprise_Files
             if (this.IsCompliant == compliancestate.Compliant)
             {
                 this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
-                this.eMMProfileViewModel.IsAvailable = false;
+                this.eMMProfileViewModel.IsAvailable = true; //  or false
             }
             else
             {

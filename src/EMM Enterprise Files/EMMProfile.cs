@@ -29,7 +29,6 @@ namespace EMM_Enterprise_Files
         intent Intent { get; set; }
         compliancestate IsCompliant { get; }
         string Base64IconString { get; set; }
-        public bool isChecked { get; set; }
         public bool isEnabled { get;}
         public EMMProfileViewModel eMMProfileViewModel { get; }
 

@@ -63,7 +63,7 @@
                                     Color="#000063"
                                     HorizontalOptions="End"
                                     IsEnabled="{Binding eMMProfileViewModel.IsAvailable}"
-                                    IsChecked="{Binding isChecked, Mode=TwoWay}" />
+                                    IsChecked="{Binding eMMProfileViewModel.IsSelected, Mode=TwoWay}" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

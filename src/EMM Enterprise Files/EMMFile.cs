@@ -12,7 +12,7 @@ using static Android.Provider.ContactsContract;
 
 namespace EMM_Enterprise_Files
 {
-    
+    public enum validationresult { Valid, Invalid, NoHash };
 
     public partial class EMMFile : IEMMProfile
     {
@@ -24,7 +24,6 @@ namespace EMM_Enterprise_Files
         public intent Intent { get; set; }
         private string TemporaryPath => GetTemporaryPath();
         public string Base64IconString { get; set; }
-        public bool isChecked { get; set; }
         public bool isEnabled
         {
             get
@@ -84,10 +83,11 @@ namespace EMM_Enterprise_Files
                 {
                     System.IO.File.Move(TemporaryPath, Path, true);
                     this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
+                    this.eMMProfileViewModel.IsAvailable = true;
                 }
                 catch (Exception ex)
                 {
-                    this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
+                    this.eMMProfileViewModel.Status = this.eMMProfileViewModel.Status = $"{ex.HResult}: {ex.Message}";
                     this.eMMProfileViewModel.IsAvailable = true;
 
                 }
@@ -100,7 +100,7 @@ namespace EMM_Enterprise_Files
                 }
                 catch (Exception ex)
                 {
-                    this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
+                    this.eMMProfileViewModel.Status = $"{ex.HResult}: {ex.Message}";
                     this.eMMProfileViewModel.IsAvailable = true;
                 }
             }
@@ -110,7 +110,7 @@ namespace EMM_Enterprise_Files
 
         public void ProcessDownloadedFile()
         {
-            if (EMMFile.GetComplianceState(TemporaryPath, this.Hash, this.Intent) == compliancestate.Compliant)
+            if (EMMFile.ValidateHash(TemporaryPath, this.Hash) != validationresult.Invalid)
             {
                 var destFile = this.Path;
                 try
@@ -120,24 +120,39 @@ namespace EMM_Enterprise_Files
                 }
                 catch (Exception ex)
                 {
-                    this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
+                    this.eMMProfileViewModel.Status = $"{ex.HResult}: {ex.Message}";
                 }
             }
             else
             {
                 System.IO.File.Delete(TemporaryPath);
-                this.eMMProfileViewModel.Status = profilestatusvalue.Failed;
+                this.eMMProfileViewModel.Status = "Failed Hash validation";
             }
 
             if (File.Exists(Path))
-                if (IsCompliant == compliancestate.NonCompliant) // file has wrong hash
+                if (IsCompliant == compliancestate.NonCompliant && this.Hash != null) // file has wrong hash
                 {
                     //File.Delete(Path);
                     this.eMMProfileViewModel.Status = profilestatusvalue.Available;
                     this.eMMProfileViewModel.IsAvailable = true;
+                    
                 }
+            this.eMMProfileViewModel.IsAvailable = true;
+            this.eMMProfileViewModel.IsSelected = false;
         }
 
+
+        public static validationresult ValidateHash(string Path, string Hash)
+        {
+            if (File.Exists(Path))
+            {
+                if (Hash == null)
+                    return validationresult.NoHash;
+                if (EMMFile.GetChecksum(Path) == Hash)
+                    return validationresult.Valid;
+            }
+            return validationresult.Invalid;
+        }
 
         public static compliancestate GetComplianceState(string Path, string Hash, intent Intent)
         {
@@ -148,13 +163,8 @@ namespace EMM_Enterprise_Files
             }
             else if (Intent == intent.Compliant)
             {
-                if (File.Exists(Path))
-                {
-                    if (Hash == null)
-                        return compliancestate.Compliant;
-                    if (EMMFile.GetChecksum(Path) == Hash)
-                        return compliancestate.Compliant;
-                }
+                if ( ValidateHash(Path, Hash) == validationresult.Valid )
+                    return compliancestate.Compliant;
             }
             else
             {

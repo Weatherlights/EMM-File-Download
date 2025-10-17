@@ -8,7 +8,7 @@
     Title="EMM_Enterprise_Files">
     <TabBar>
         <Tab Title="Profiles"
-             Icon="appicon.svg">
+             >
             <ShellContent
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />

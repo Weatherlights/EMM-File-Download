@@ -76,7 +76,7 @@ namespace EMM_Enterprise_Files
             SetForegroundAsync(createForegroundInfo("Hello", 100));
             foreach (var file in eMMFiles)
             {
-                if (file.IsCompliant == compliancestate.NonCompliant)
+                if (file.IsCompliant == compliancestate.NonCompliant && file.Intent != intent.Available)
                 {
                     djm.AddDownloadJob(file);
 #if DEBUG
