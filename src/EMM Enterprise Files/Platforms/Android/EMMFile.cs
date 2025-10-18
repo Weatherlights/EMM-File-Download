@@ -66,6 +66,7 @@ namespace EMM_Enterprise_Files
  
 
                 request.SetTitle(Name).SetVisibleInDownloadsUi(false).SetNotificationVisibility(Android.App.DownloadVisibility.Visible);
+        
                 request.SetDestinationInExternalPublicDir(global::Android.OS.Environment.DirectoryDownloads, $"{context.ApplicationInfo.PackageName}/{TemporaryFileName}");
                 //request.SetDestinationInExternalPublicDir(FileSystem.Current.CacheDirectory, file.Name);
 

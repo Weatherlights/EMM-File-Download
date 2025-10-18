@@ -79,7 +79,7 @@ namespace EMM_Enterprise_Files
         public void InitializeFileEnforcement()
         {
 
-            if (GetComplianceState(Path, base64, Intent) == compliancestate.NonCompliant) {
+            //if (GetComplianceState(Path, base64, Intent) == compliancestate.NonCompliant) {
                 this.eMMProfileViewModel.Status = profilestatusvalue.Enforcing;
                 this.eMMProfileViewModel.IsAvailable = false;
                 // Convert Base64 string to byte array
@@ -92,7 +92,7 @@ namespace EMM_Enterprise_Files
                 this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
                 this.eMMProfileViewModel.IsSelected = false;
                 this.eMMProfileViewModel.IsAvailable = true;
-            }
+            //}
         }
 
 
