@@ -28,10 +28,10 @@ namespace EMM_Enterprise_Files
             else
                 this.Intent = intent.Available;
 
-            if (this.IsCompliant == compliancestate.Compliant)
+            if (this.IsCompliant == compliancestate.Compliant && this.Intent != intent.Available)
             {
                 this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
-                this.eMMProfileViewModel.IsAvailable = false;
+                this.eMMProfileViewModel.IsAvailable = true;
             }
             else
             {
