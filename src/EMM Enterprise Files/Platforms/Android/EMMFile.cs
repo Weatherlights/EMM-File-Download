@@ -25,10 +25,16 @@ namespace EMM_Enterprise_Files
 
             this.URL = bundle.GetString("url");
             this.Path = bundle.GetString("path");
-            this.Base64IconString = bundle.GetString("icon");
+            this.IconSource = bundle.GetString("icon");
             //eMMFile.Base64 = bundle.GetString("base64");
 
             this.Hash = bundle.GetString("hash");
+            this.eMMProfileViewModel.Description = bundle.GetString("description");
+
+            if(bundle.GetBoolean("hiddeninportal"))
+                this.Visibility = visibility.Invisible;
+            else
+                this.Visibility = visibility.Visible;
 
             if (bundle.GetString("intent") == "Create")
                 this.Intent = intent.Create;

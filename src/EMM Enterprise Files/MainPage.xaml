@@ -17,8 +17,6 @@
                     <RowDefinition Height="Auto"  />
                     <RowDefinition Height="1*"  />
                     <RowDefinition Height="1*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto " />
                 </Grid.RowDefinitions>
 
                 <!-- Fix: Set ItemsSource to a valid collection, e.g. Binding to a property -->
@@ -28,12 +26,13 @@
                 HorizontalOptions="Center"
                 Grid.Row="0"
                 x:Name="InstructionLabel"/>
-                <ListView ItemsSource="{x:Static local:EMMProfile.All}" RowHeight="120" Grid.Row="1"  VerticalScrollBarVisibility="Never">
+                <ListView ItemsSource="{x:Static local:EMMProfile.DisplayList}" RowHeight="120" Grid.Row="1"  VerticalScrollBarVisibility="Never" ItemSelected="OnItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:IEMMProfile">
                             <ViewCell>
-                                <Grid Padding="0">
+                                <Grid>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
@@ -42,23 +41,30 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.RowSpan="2"
+                                    <Image Grid.RowSpan="3"
                            Source="{Binding Icon}"
                            Aspect="AspectFill"
-                           HeightRequest="60"
-                           WidthRequest="60" />
+                           HeightRequest="52"
+                           WidthRequest="52" Margin="20,0,20,0" />
                                     <Label Grid.Column="1"
                            Text="{Binding Name}"
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold" Margin="0,10,0,0" />
+                                    
                                     <Label Grid.Row="1"
                            Grid.Column="1"
                                        Grid.ColumnSpan="2"
                            Text="{Binding eMMProfileViewModel.Status}"
+                      
+                            />
+                                    <Label Grid.Row="2"
+                           Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                           Text="{Binding eMMProfileViewModel.Description}"
                            FontAttributes="Italic"
                             />
-
                                     <CheckBox x:Name="checkBox"
                                     Grid.Row="0"
+                                    Grid.RowSpan="2"
                                     Grid.Column="2"
                                     Color="#000063"
                                     HorizontalOptions="End"
@@ -69,16 +75,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Label
-     Text="Status: Idle"
-     FontAttributes="Bold"
-     x:Name="StatusLabel" Grid.Row="2"/>
-                <ProgressBar Progress="0"
-             ProgressColor="Orange"
-             x:Name="DownloadProgressBar"
-                          Grid.Row="3"
-            />
-                <Button Text="Enforce" Clicked="Button_Clicked" Grid.Row="4"/>
+                <Button Text="Enforce" Clicked="Button_Clicked" Grid.Row="2"/>
             </Grid>
         </StackLayout>
     </ScrollView>

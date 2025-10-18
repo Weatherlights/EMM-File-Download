@@ -13,6 +13,7 @@ namespace EMM_Enterprise_Files
         private string status;
         private bool _isAvailable;
         private bool _isSelected;
+        private String _description;
 
 
         public string Name
@@ -38,5 +39,12 @@ namespace EMM_Enterprise_Files
             get => _isSelected;
             set => SetProperty(ref _isSelected, value);
         }
+
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
+
     }
 }

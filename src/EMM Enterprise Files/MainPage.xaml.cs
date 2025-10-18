@@ -16,7 +16,20 @@ namespace EMM_Enterprise_Files
             _messenger = messenger;
         }
 
-
+        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        {
+            var item = args.SelectedItem as IEMMProfile;
+            if (item == null)
+                return;
+            if (item.eMMProfileViewModel.IsSelected && item.eMMProfileViewModel.IsAvailable)
+                            {
+                item.eMMProfileViewModel.IsSelected = false;
+            }
+            else if (item.eMMProfileViewModel.IsAvailable)
+            {
+                item.eMMProfileViewModel.IsSelected = true;
+            }
+        }
 
 
         private void Button_Clicked(object sender, EventArgs e)

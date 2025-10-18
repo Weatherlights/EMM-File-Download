@@ -11,7 +11,8 @@ namespace EMM_Enterprise_Files
 
     public enum intent { Available, Compliant, Create };
     public enum compliancestate { Compliant, NonCompliant };
-   
+    public enum visibility { Visible, Invisible };
+
     public static class profilestatusvalue
     {
         public static String Available { get { return "Available"; } }
@@ -28,8 +29,9 @@ namespace EMM_Enterprise_Files
         //ImageSource Icon { get; }
         intent Intent { get; set; }
         compliancestate IsCompliant { get; }
-        string Base64IconString { get; set; }
+        string IconSource { get; set; }
         public bool isEnabled { get;}
+        public visibility Visibility { get; set; }
         public EMMProfileViewModel eMMProfileViewModel { get; }
 
 
@@ -44,6 +46,11 @@ namespace EMM_Enterprise_Files
     {
 
         public static List<IEMMProfile> All { get; private set; }
+        public static List<IEMMProfile> DisplayList { get
+            {
+                return All.Where(profile => profile.Visibility == visibility.Visible).ToList();
+            }
+        }
 
 
         static EMMProfile()

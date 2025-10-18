@@ -4,20 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:EMM_Enterprise_Files"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     Title="EMM_Enterprise_Files">
-    <TabBar>
-        <Tab Title="Profiles"
-             >
-            <ShellContent
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+
+        <ShellContent
+            Title="Profiles"
+            Icon="cart.png"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-        </Tab>
-        <Tab Title="About">
-            <ShellContent
-        ContentTemplate="{DataTemplate local:About}"
-        Route="About" />
-    </Tab>
-    </TabBar>
+        />
+        <ShellContent
+            Icon="info.png"
+            Title="About"
+        ContentTemplate="{DataTemplate local:About}" FlyoutItemIsVisible="True"
+         />
+
+    </FlyoutItem>
+   
 
 </Shell>
