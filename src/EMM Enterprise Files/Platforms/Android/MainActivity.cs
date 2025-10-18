@@ -45,7 +45,7 @@ namespace EMM_Enterprise_Files
 
            PeriodicWorkRequest backgroundEMMFileSyncTaskRequest = PeriodicWorkRequest.Builder.From<DownloadComplianceWorker>(TimeSpan.FromMinutes(configurationProvider.GetSyncInterval())).Build();
 
-           WorkManager.GetInstance(this).EnqueueUniquePeriodicWork("EMMFileSyncWork", ExistingPeriodicWorkPolicy.Keep, backgroundEMMFileSyncTaskRequest);
+          WorkManager.GetInstance(this).EnqueueUniquePeriodicWork("EMMFileSyncWork", ExistingPeriodicWorkPolicy.Keep, backgroundEMMFileSyncTaskRequest);
         }
 
         private void SendOnChannel1(string title, string message)

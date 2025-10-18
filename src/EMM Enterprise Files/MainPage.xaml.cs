@@ -26,7 +26,7 @@ namespace EMM_Enterprise_Files
             
             foreach ( IEMMProfile profile in profiles )
             {
-                if ( profile.eMMProfileViewModel.IsSelected && profile.isEnabled)
+                if ( profile.eMMProfileViewModel.IsSelected && profile.eMMProfileViewModel.IsAvailable)
                 {
                     djm.AddDownloadJob(profile);
                 }
