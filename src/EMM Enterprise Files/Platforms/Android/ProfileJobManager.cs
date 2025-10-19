@@ -16,10 +16,10 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace EMM_Enterprise_Files
 {
-    partial class DownloadJobManager
+    partial class ProfileJobManager
     {
         private Context context = Platform.AppContext;
-        private DownloadManager downloadManager = DownloadManager.FromContext(Platform.AppContext);
+        
         
 
 

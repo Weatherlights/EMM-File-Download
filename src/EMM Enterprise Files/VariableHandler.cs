@@ -14,6 +14,7 @@ namespace EMM_Enterprise_Files
         public static partial string GetPicturesFolder();
         public static partial string GetExternalStorageFolder();
         public static partial string GetDataFolder();
+        public static partial string GetMusicFolder();
 
         static public string ResolveVariables(string unresolvedString)
         {
@@ -131,6 +132,9 @@ namespace EMM_Enterprise_Files
                                     break;
                                 case "PICTURES":
                                     value = GetPicturesFolder();
+                                    break;
+                                case "MUSIC":
+                                    value = GetMusicFolder();
                                     break;
                                 case "DATA":
                                     value = GetDataFolder();

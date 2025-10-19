@@ -6,7 +6,7 @@ namespace EMM_Enterprise_Files
     public partial class MainPage : ContentPage
     {
         int count = 0;
-        DownloadJobManager downloadJobManager = new DownloadJobManager();
+
         private readonly IMessenger _messenger;
 
         public MainPage(IMessenger messenger)
@@ -35,16 +35,16 @@ namespace EMM_Enterprise_Files
         private void Button_Clicked(object sender, EventArgs e)
         {
             List<IEMMProfile> profiles = EMMProfile.All;
-            DownloadJobManager djm = new DownloadJobManager();
+            ProfileJobManager djm = new ProfileJobManager();
             
             foreach ( IEMMProfile profile in profiles )
             {
                 if ( profile.eMMProfileViewModel.IsSelected && profile.eMMProfileViewModel.IsAvailable)
                 {
-                    djm.AddDownloadJob(profile);
+                    djm.AddProfileJob(profile);
                 }
             }
-            djm.StartDownloadJobs();
+            djm.StartProfileJobs();
         }
     }
 

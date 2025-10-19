@@ -87,7 +87,7 @@ namespace EMM_Enterprise_Files
             this.eMMProfileViewModel.Status = profilestatusvalue.Enforcing;
             this.eMMProfileViewModel.IsAvailable = false;
 
-            if (EMMFile.GetComplianceState(this.TemporaryPath, this.Hash, this.Intent) == compliancestate.Compliant)
+            if (EMMFile.ValidateHash(this.TemporaryPath, this.Hash) != validationresult.Invalid)
             {
                 try
                 {

@@ -53,7 +53,7 @@ namespace EMM_Enterprise_Files
 
 
             ConfigurationProvider eMMFileSync = ConfigurationProvider.GetInstance();
-            DownloadJobManager djm = new DownloadJobManager();
+            ProfileJobManager djm = new ProfileJobManager();
             List<IEMMProfile> eMMFiles = EMMProfile.All;
             var messenger = MauiApplication.Current.Services.GetService<IMessenger>();
             //messenger.Send(new MessageData(2, "EMM Enterprise Files", "Enforcing compliance..."));
@@ -78,7 +78,7 @@ namespace EMM_Enterprise_Files
             {
                 if (file.IsCompliant == compliancestate.NonCompliant && file.Intent != intent.Available)
                 {
-                    djm.AddDownloadJob(file);
+                    djm.AddProfileJob(file);
 #if DEBUG
                     Android.Util.Log.Debug("DownloadComplianceWorker", $"Created download job for {file.Name}.");
 #endif
@@ -92,7 +92,7 @@ namespace EMM_Enterprise_Files
             }
             //  Progress<double> progress = new Progress<double>();
 
-            djm.StartDownloadJobs();
+            djm.StartProfileJobs();
 
             //_notificationManager.Cancel(2);
             Android.Util.Log.Debug("DownloadComplianceWorker", $"Download jobs started.");
@@ -103,7 +103,7 @@ namespace EMM_Enterprise_Files
 
 
             ConfigurationProvider eMMFileSync = ConfigurationProvider.GetInstance();
-            DownloadJobManager djm = new DownloadJobManager();
+            ProfileJobManager djm = new ProfileJobManager();
             List<EMMFile> eMMFiles = eMMFileSync.GetEMMFileData();
             var messenger = MauiApplication.Current.Services.GetService<IMessenger>();
             //messenger.Send(new MessageData(2, "EMM Enterprise Files", "Enforcing compliance..."));
@@ -138,7 +138,7 @@ namespace EMM_Enterprise_Files
             {
                 if (file.IsCompliant == compliancestate.NonCompliant)
                 {
-                    djm.AddDownloadJob(file);
+                    djm.AddProfileJob(file);
 #if DEBUG
                     Android.Util.Log.Debug("DownloadComplianceWorker", $"Created download job for {file.Name}.");
 #endif

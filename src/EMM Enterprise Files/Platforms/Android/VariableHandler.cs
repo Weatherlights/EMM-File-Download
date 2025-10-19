@@ -19,6 +19,11 @@ namespace EMM_Enterprise_Files
             return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).Path;
         }
 
+        public static partial string GetMusicFolder()
+        {
+            return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryMusic).Path;
+        }
+
         public static partial string GetPicturesFolder()
         {
             return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures).Path;

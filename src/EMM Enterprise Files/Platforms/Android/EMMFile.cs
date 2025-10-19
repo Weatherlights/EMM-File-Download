@@ -25,10 +25,12 @@ namespace EMM_Enterprise_Files
 
             this.URL = bundle.GetString("url");
             this.Path = bundle.GetString("path");
-            this.IconSource = bundle.GetString("icon");
+            if(bundle.GetString("icon") != "0x0")
+                this.IconSource = bundle.GetString("icon");
             //eMMFile.Base64 = bundle.GetString("base64");
 
-            this.Hash = bundle.GetString("hash");
+            if (bundle.GetString("hash") != "0x0")
+                this.Hash = bundle.GetString("hash");
             this.eMMProfileViewModel.Description = bundle.GetString("description");
 
             if(bundle.GetBoolean("hiddeninportal"))
@@ -45,7 +47,7 @@ namespace EMM_Enterprise_Files
             
             this.eMMProfileViewModel.Status = profilestatusvalue.Available;
 
-            if (this.IsCompliant == compliancestate.Compliant)
+            if (ValidateHash(Path, Hash) != validationresult.Invalid)
             {
                 this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
                 this.eMMProfileViewModel.IsAvailable = true; //  or false
@@ -59,32 +61,15 @@ namespace EMM_Enterprise_Files
 
         private partial string GetTemporaryPath()
         {
-            return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).Path + $"/{context.ApplicationInfo.PackageName}/{TemporaryFileName}";
+            return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).Path + $"/.{context.ApplicationInfo.PackageName}/{Name}";
         }
 
 
         private partial void ProcessDownload()
         {
-            var request = new DownloadManager.Request(global::Android.Net.Uri.Parse(this.URL));
+            DownloadManagerWrapper downloadManagerWrapper = DownloadManagerWrapper.GetDownloadManager();
 
-            var text = $"Downloading {this.Name}...";
-            request.SetDescription(text);
- 
-
-                request.SetTitle(Name).SetVisibleInDownloadsUi(false).SetNotificationVisibility(Android.App.DownloadVisibility.Visible);
-        
-                request.SetDestinationInExternalPublicDir(global::Android.OS.Environment.DirectoryDownloads, $"{context.ApplicationInfo.PackageName}/{TemporaryFileName}");
-                //request.SetDestinationInExternalPublicDir(FileSystem.Current.CacheDirectory, file.Name);
-
-                var downloadId = downloadManager.Enqueue(request);
-                //downloadTracker.Add(tmpFilePath, downloadId);
-                context.RegisterReceiver(new EMMFileBroadcastReceiver(downloadId, this), new IntentFilter(DownloadManager.ActionDownloadComplete), Android.Content.ReceiverFlags.Exported);
-                
-
-
-
-            
-
+            long downloadId = downloadManagerWrapper.Download(this);
         }
     }
 }

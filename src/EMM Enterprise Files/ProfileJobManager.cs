@@ -7,7 +7,7 @@ using XAct;
 
 namespace EMM_Enterprise_Files
 {
-    public partial class DownloadJobManager
+    public partial class ProfileJobManager
     {
 
         List<IEMMProfile> PayloadEMMProfiles = new List<IEMMProfile>();
@@ -18,7 +18,7 @@ namespace EMM_Enterprise_Files
         //private DownloadManager DownloadManager = new DownloadManager();
 
 
-        public void AddDownloadJob(IEMMProfile profile)
+        public void AddProfileJob(IEMMProfile profile)
         {
             if (profile is null)
                 throw new ArgumentNullException($"The {nameof(profile)} can't be null.");
@@ -34,7 +34,7 @@ namespace EMM_Enterprise_Files
             return fileName;
         }
 
-        public async Task StartDownloadJobsAsync()
+        public async Task StartProfileJobsAsync()
         {
             //EMMFilesListView.IsEnabled = false;
             int i = 0;
@@ -65,7 +65,7 @@ namespace EMM_Enterprise_Files
         }
 
         //public partial Task StartDownloadJobsAsync(Progress<Double> progress, IProgress<string> progressText);
-        public void StartDownloadJobs()
+        public void StartProfileJobs()
         {
             //EMMFilesListView.IsEnabled = false;
             int i = 0;
