@@ -48,7 +48,10 @@ namespace EMM_Enterprise_Files
         public static List<IEMMProfile> All { get; private set; }
         public static List<IEMMProfile> DisplayList { get
             {
-                return All.Where(profile => profile.Visibility == visibility.Visible).ToList();
+                if (All != null)
+                    return All.Where(profile => profile.Visibility == visibility.Visible).ToList();
+                else
+                    return All;
             }
         }
 

@@ -18,7 +18,9 @@ namespace EMM_Enterprise_Files
         public visibility Visibility { get; set; }
 
 
-        public bool isEnabled { get
+        public bool isEnabled
+        {
+            get
             {
                 if (this.IsCompliant == compliancestate.Compliant)
                     return false;
@@ -49,7 +51,8 @@ namespace EMM_Enterprise_Files
                     {
                         MemoryStream stream = new MemoryStream(Convert.FromBase64String(IconSource));
                         return ImageSource.FromStream(() => stream);
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         return "file.png";
                     }
@@ -59,7 +62,7 @@ namespace EMM_Enterprise_Files
 
         public string IconSource { get; set; }
 
-        
+
 
         public static compliancestate GetComplianceState(string Path, string base64, intent Intent)
         {
@@ -89,31 +92,40 @@ namespace EMM_Enterprise_Files
         {
 
             //if (GetComplianceState(Path, base64, Intent) == compliancestate.NonCompliant) {
-                this.eMMProfileViewModel.Status = profilestatusvalue.Enforcing;
-                this.eMMProfileViewModel.IsAvailable = false;
-                // Convert Base64 string to byte array
-                byte[] imageBytes = Convert.FromBase64String(base64);
+            this.eMMProfileViewModel.Status = profilestatusvalue.Enforcing;
+            this.eMMProfileViewModel.IsAvailable = false;
+            // Convert Base64 string to byte array
+            byte[] imageBytes = Convert.FromBase64String(base64);
 
-                // Specify the path to save the image
+            // Specify the path to save the image
 
-                // Write the byte array to a file
-                File.WriteAllBytes(Path, imageBytes);
-                this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
-                this.eMMProfileViewModel.IsSelected = false;
-                this.eMMProfileViewModel.IsAvailable = true;
+            // Write the byte array to a file
+            File.WriteAllBytes(Path, imageBytes);
+            this.eMMProfileViewModel.Status = profilestatusvalue.Completed;
+            this.eMMProfileViewModel.IsSelected = false;
+            this.eMMProfileViewModel.IsAvailable = true;
             //}
         }
 
 
         static private string GetBase64String(string filePath)
         {
-            
-            byte[] fileBytes = File.ReadAllBytes(filePath);
-            string base64String = Convert.ToBase64String(fileBytes);
+            try
+            {
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+                string base64String = Convert.ToBase64String(fileBytes);
 #if DEBUG
-            Android.Util.Log.Debug("EMMBase64", base64String);
+                Android.Util.Log.Debug("EMMBase64", base64String);
 #endif
-            return base64String;
+                return base64String;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Android.Util.Log.Debug("EMMBase64", ex.Message);
+#endif
+            }
+            return null;
         }
     }
 }

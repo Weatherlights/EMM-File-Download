@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Android.OS;
+using Android.Content;
 
 namespace EMM_Enterprise_Files
 {
@@ -12,8 +13,35 @@ namespace EMM_Enterprise_Files
         public MainPage(IMessenger messenger)
         {
             InitializeComponent();
-            Permissions.RequestAsync<NotificationPermission>();
+            // Permissions.RequestAsync<NotificationPermission>();
+            this.OnAppearing();
             _messenger = messenger;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var status = await Permissions.CheckStatusAsync<NotificationPermission>();
+            
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<NotificationPermission>();
+            }
+
+            
+                var intent = new Intent(Android.Provider.Settings.ActionManageAllApplicationsSettings);
+            var activity = Platform.CurrentActivity;
+            activity?.StartActivity(intent);
+
+            if (status == PermissionStatus.Granted)
+            {
+               
+            }
+            else
+            {
+                // TODO: not granted  permission
+            }
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

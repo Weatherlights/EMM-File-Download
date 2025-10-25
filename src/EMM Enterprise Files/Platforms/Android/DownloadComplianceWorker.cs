@@ -1,11 +1,11 @@
 ﻿using Android.App;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Text.Style;
 using AndroidX.Core.App;
 using AndroidX.Work;
 using CommunityToolkit.Mvvm.Messaging;
-using Android.App;
 using Java.Net;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XAct;
 using static Android.Icu.Text.CaseMap;
 
 
@@ -22,8 +23,8 @@ namespace EMM_Enterprise_Files
     internal class DownloadComplianceWorker : Worker
     {
         private int notificationId = 2;
-        private Context _context;
-        public DownloadComplianceWorker(Context context, WorkerParameters workerParameters) : base(context, workerParameters)
+        private Android.Content.Context _context;
+        public DownloadComplianceWorker(Android.Content.Context context, WorkerParameters workerParameters) : base(context, workerParameters)
         {
        
             _context = context;
@@ -46,6 +47,43 @@ namespace EMM_Enterprise_Files
             
     
             return new ForegroundInfo(notificationId, notification, 1);
+        }
+
+        public void CleanUpDownloadFolder()
+        {
+            var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).Path + $"/.{_context.ApplicationInfo.PackageName}";
+
+            try
+            {
+                var files = Directory.GetFiles(dir, "*");
+                List<IEMMProfile> eMMFiles = EMMProfile.All;
+                foreach (var file in files)
+                {
+                    var fileName = Path.GetFileName(file);
+                    bool matched = false;
+                    foreach (var profile in eMMFiles)
+                    {
+                        var matchedFile = eMMFiles.FirstOrDefault(f => f.Name == fileName.Replace(".tmp", ""));
+                        if (matchedFile != null)
+                        {
+                            matched = true;
+                        }
+                    }
+                    if (!matched)
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         async void EnforceCompliance()
@@ -72,7 +110,10 @@ namespace EMM_Enterprise_Files
             Progress<string> progressText = new Progress<string>(i => {
                     SetForegroundAsync(createForegroundInfo(i, 100));
             });
-            //NotificationManagerCompat _notificationManager = NotificationManagerCompat.From(_context);
+                    //NotificationManagerCompat _notificationManager = NotificationManagerCompat.From(_context);
+
+
+                   // CleanUpDownloadFolder();
             SetForegroundAsync(createForegroundInfo("Hello", 100));
             foreach (var file in eMMFiles)
             {
